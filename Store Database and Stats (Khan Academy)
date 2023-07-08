@@ -1,0 +1,74 @@
+--Create a grocery store database
+
+/** Makeup Store
+Eyebrow Pencil 1.99
+Eyeshadow 5.00
+Eyeliner 2.99
+False Eyelashes 5.00
+Mascara 3.00
+Foundation 9.99
+Concealer 4.00
+Blush 6.00
+Bronzer 6.00
+Loose Powder 9.00
+Face Powder 8.00
+Lip Liner 1.00
+Lip Gloss 2.00
+Lip Stick 3.00
+Setting Spray 7.00
+**/
+
+CREATE TABLE Makeup_Store (id INTEGER PRIMARY KEY, name TEXT, price INTEGER, quantity INTEGER, category TEXT);
+
+INSERT INTO Makeup_Store VALUES (1, "Eyebrow Pencil", 1.99, 3, "eyes");
+INSERT INTO Makeup_Store VALUES (2, "Eyeshadow", 5.99, 1, "eyes");
+INSERT INTO Makeup_Store VALUES (3, "Eyeliner", 2.99, 8, "eyes");
+INSERT INTO Makeup_Store VALUES (4, "False Eyelashes", 5.99, 7, "eyes");
+INSERT INTO Makeup_Store VALUES (5, "Mascara", 3.99, 3, "eyes");
+INSERT INTO Makeup_Store VALUES (6, "Foundation", 9.99, 10, "face");
+INSERT INTO Makeup_Store VALUES (7, "Concealer", 4.99, 12, "face");
+INSERT INTO Makeup_Store VALUES (8, "Blush", 6.99, 6, "face");
+INSERT INTO Makeup_Store VALUES (9, "Bronzer", 6.99, 4,"face");
+INSERT INTO Makeup_Store VALUES (10, "Loose Powder", 9.99, 5, "face");
+INSERT INTO Makeup_Store VALUES (11, "Face Powder", 8.99, 6, "face");
+INSERT INTO Makeup_Store VALUES (12, "Lip Liner", 1.99, 11, "lips");
+INSERT INTO Makeup_Store VALUES (13, "Lip Gloss", 2.99, 9, "lips");
+INSERT INTO Makeup_Store VALUES (14, "Lip Stick", 3.99, 5, "lips");
+INSERT INTO Makeup_Store VALUES (15, "Setting Spray", 7.99, 1, "face");
+SELECT * FROM Makeup_Store;
+
+
+SELECT * FROM Makeup_Store ORDER BY price;
+
+SELECT * FROM Makeup_Store WHERE quantity > 5;
+
+SELECT * FROM Makeup_Store WHERE quantity > 5 ORDER BY price;
+
+SELECT * FROM Makeup_Store WHERE quantity > 5 GROUP BY category;
+
+SELECT SUM(quantity) FROM Makeup_Store;
+
+SELECT SUM(quantity) FROM Makeup_Store WHERE price >5.99;
+
+SELECT SUM(quantity) FROM Makeup_Store WHERE price < 5.99;
+
+SELECT SUM(quantity) FROM Makeup_Store WHERE category = "face";
+
+SELECT SUM(quantity) FROM Makeup_Store WHERE category = "eyes";
+
+SELECT SUM(quantity) FROM Makeup_Store WHERE category = "lips";
+
+--display the database ordered by price. 
+SELECT * FROM Makeup_store
+ORDER BY price desc; 
+
+--what is the avg price of items in the category section? 
+SELECT AVG(price) 
+FROM Makeup_store
+where category='face'; 
+
+--what are the most 5 popular items? 
+SELECT name, price, quantity
+FROM Makeup_store
+order by quantity desc
+limit 5; 
