@@ -66,6 +66,43 @@ Use a HAVING clause to determine something interesting about the data per catego
 Use logical operators like AND or OR to filter the data in an interesting way.
 Use an aggregate function like AVG, SUM, COUNT, MAX, and/or MIN to return summary statistics about the data.*/
 
+# Analysis: 
+
+# Assign all the companies in the Healthcare industry as "mother friendly workplace", "acceptable", or "abysmal" based on the maternity leave offered. 
+
+SELECT
+company_name,
+CASE 
+  WHEN maternity_leave_weeks >= 10 THEN 'mother friendly workplace'
+  WHEN maternity_leave_weeks >= 8 THEN 'acceptable'
+  ELSE 'abysmal'
+END as mother_friendliness
+FROM fortune_companies
+WHERE industry='Healthcare'
+;
+
+# Which industries have an average revenue of at least $200 Billion, and what are their avg revenues?
+SELECT industry, ROUND(AVG(revenue),1) as avg_revenue_billions
+FROM fortune_companies
+GROUP BY industry
+HAVING avg_revenue_billions>=200
+;
+
+# Which companies have healthcare benefits *and* at least 20 paid time off days?
+SELECT company_name
+FROM fortune_companies
+WHERE paid_time_off_days>20
+AND healthcare_benefits=1
+;
+
+# Which company in the Retail industry has the least revenue, and what's their revenue? 
+SELECT company_name, min(revenue)
+FROM fortune_companies
+WHERE industry = 'Retail'
+;
+
+/*Individual Practice*/
+
 SELECT *
 FROM fortune_companies
 
@@ -74,21 +111,15 @@ FROM fortune_companies
 
 SELECT company_name, employees, avg_employee_tenure
 FROM fortune_companies
-WHERE employees > 100000 
+WHERE employees > 5000
 
 SELECT company_name, employees, avg_employee_tenure
 FROM fortune_companies
-WHERE employees > 100000 
+WHERE employees > 50000 
 AND avg_employee_tenure > 5.5
 ORDER BY employees
 
 SELECT industry, AVG(paid_time_off_days) 
-AS avg_PTO 
-FROM fortune_companies 
-GROUP BY industry
-ORDER BY avg_PTO
-
-SELECT industry, employess, AVG(paid_time_off_days) 
 AS avg_PTO 
 FROM fortune_companies 
 GROUP BY industry
@@ -99,3 +130,51 @@ AVG(paid_time_off_days) AS avg_PTO
 FROM fortune_companies 
 GROUP BY industry
 ORDER BY avg_PTO desc
+
+SELECT industry, AVG(employees)AS employees,
+AVG(paid_time_off_days) AS avg_PTO
+FROM fortune_companies 
+GROUP BY industry
+ORDER BY avg_PTO desc
+
+SELECT industry, revenue
+FROM fortune_companies
+GROUP BY industry
+ORDER BY revenue desc
+
+SELECT industry, ROUND(revenue*1000000)
+AS revenue_in_millions
+FROM fortune_companies
+GROUP BY industry
+HAVING employees >1000
+ORDER BY revenue desc
+
+SELECT company_name, MAX(paid_time_off_days) AS PTO
+FROM fortune_companies
+
+SELECT company_name, MIN(paid_time_off_days) AS PTO
+FROM fortune_companies
+
+SELECT company_name, healthcare_benefits,
+CASE WHEN healthcare_benefits=1 THEN "yes"
+ELSE "No" END AS "Healthcare Benefits"
+FROM fortune_companies
+
+SELECT company_name, 
+CASE WHEN healthcare_benefits=1 THEN "yes"
+ELSE "No" END AS "Healthcare Benefits"
+FROM fortune_companies
+
+SELECT company_name, paid_time_off_days,
+CASE WHEN paid_time_off_days >= 18 THEN "High PTO"
+     WHEN paid_time_off_days >= 15 THEN "Regular PTO"
+     ELSE "Low PTO" END AS "PTO"
+FROM fortune_companies
+
+SELECT COUNT(*), 
+CASE WHEN paid_time_off_days >= 18 THEN "High PTO"
+     WHEN paid_time_off_days >= 15 THEN "Regular PTO"
+     ELSE "Low PTO" END AS "PTO"
+FROM fortune_companies
+GROUP BY PTO
+
